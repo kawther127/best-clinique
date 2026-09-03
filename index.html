@@ -1,0 +1,2643 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MediCare Clinic - Professional Medical Cabinet Management System for doctors, patients, appointments and consultations">
+    <meta name="keywords" content="medical clinic, doctor management, patient management, appointments, consultations, healthcare, cabinet médical, عيادة طبية">
+    <meta name="author" content="MediCare">
+    <title>MediCare Clinic - Medical Cabinet Management</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-light: #38bdf8;
+            --primary-dark: #0284c7;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body[dir="rtl"] {
+            font-family: 'Cairo', 'Poppins', sans-serif;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--dark);
+            padding: 0 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid;
+            border-image: var(--gradient) 1;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .logo-text span {
+            color: var(--accent);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        nav a:hover, nav a.active {
+            color: white;
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .lang-selector {
+            position: relative;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--gray);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .lang-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--dark);
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            display: none;
+            min-width: 150px;
+            overflow: hidden;
+        }
+
+        .lang-dropdown.show {
+            display: block;
+        }
+
+        .lang-dropdown button {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: transparent;
+            border: none;
+            color: white;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        body[dir="rtl"] .lang-dropdown button {
+            text-align: right;
+        }
+
+        .lang-dropdown button:hover {
+            background: var(--primary);
+        }
+
+        .btn {
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--gray);
+            color: white;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.4);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 70px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: calc(100vh - 70px);
+            display: flex;
+            align-items: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(2, 6, 23, 0.9) 100%),
+                        url('public/images/hero-medical.jpg') center/cover;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content h1 span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Doctors Section */
+        .doctors-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .doctor-card {
+            background: var(--dark);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.2);
+        }
+
+        .doctor-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .doctor-info {
+            padding: 1.5rem;
+        }
+
+        .doctor-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .doctor-info .specialty {
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .doctor-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Pages Container */
+        .page {
+            display: none;
+            min-height: calc(100vh - 70px);
+            padding: 2rem;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            background: var(--dark);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .admin-tab {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 1px solid var(--gray);
+            color: var(--gray);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .admin-tab:hover, .admin-tab.active {
+            background: var(--gradient);
+            border-color: transparent;
+            color: white;
+        }
+
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--darker);
+            border: 1px solid var(--gray);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Password Input with Eye Icon */
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-wrapper input {
+            padding-right: 45px;
+        }
+
+        body[dir="rtl"] .password-wrapper input {
+            padding-right: 1rem;
+            padding-left: 45px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s;
+        }
+
+        body[dir="rtl"] .toggle-password {
+            right: auto;
+            left: 12px;
+        }
+
+        .toggle-password:hover {
+            color: var(--primary);
+        }
+
+        .toggle-password i {
+            font-size: 1.1rem;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        body[dir="rtl"] th,
+        body[dir="rtl"] td {
+            text-align: right;
+        }
+
+        th {
+            background: var(--darker);
+            color: var(--gray);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        tr:hover {
+            background: rgba(14, 165, 233, 0.1);
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .action-btn.edit {
+            background: var(--warning);
+            color: white;
+        }
+
+        .action-btn.delete {
+            background: var(--danger);
+            color: white;
+        }
+
+        .action-btn.view {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 0.75rem 1rem;
+            background: var(--darker);
+            border: 1px solid var(--gray);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--dark);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: transparent;
+            border: none;
+            color: var(--gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        body[dir="rtl"] .modal-close {
+            right: auto;
+            left: 1rem;
+        }
+
+        .modal-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+        }
+
+        /* Login Form */
+        .login-container {
+            max-width: 400px;
+            margin: 3rem auto;
+            background: var(--dark);
+            padding: 2.5rem;
+            border-radius: 20px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Patient Portal */
+        .portal-card {
+            background: var(--dark);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .portal-card h3 {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .portal-card h3 i {
+            color: var(--accent);
+        }
+
+        .appointment-card {
+            background: var(--darker);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        body[dir="rtl"] .appointment-card {
+            border-left: none;
+            border-right: 4px solid var(--primary);
+        }
+
+        .appointment-card .date {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .appointment-card .doctor {
+            color: var(--gray);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-badge.pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .status-badge.confirmed {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+        }
+
+        .status-badge.completed {
+            background: rgba(14, 165, 233, 0.2);
+            color: var(--primary-light);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-col h4 {
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-col a {
+            display: block;
+            color: var(--gray);
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(148, 163, 184, 0.2);
+            color: var(--gray);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--dark);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            display: none;
+            align-items: center;
+            gap: 1rem;
+            z-index: 3000;
+            border-left: 4px solid var(--success);
+        }
+
+        body[dir="rtl"] .toast {
+            right: auto;
+            left: 2rem;
+            border-left: none;
+            border-right: 4px solid var(--success);
+        }
+
+        .toast.show {
+            display: flex;
+        }
+
+        .toast.error {
+            border-color: var(--danger);
+        }
+
+        /* Print Styles */
+        @media print {
+            header, footer, .admin-tabs, .search-bar, .action-btns, .btn {
+                display: none !important;
+            }
+            body {
+                background: white;
+                color: black;
+            }
+            .page {
+                display: block !important;
+            }
+            table {
+                border: 1px solid #ccc;
+            }
+            th, td {
+                border: 1px solid #ccc;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-image {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: var(--dark);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            nav.show {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .header-actions {
+                gap: 0.5rem;
+            }
+
+            .btn-outline {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+  <script data-arena-recording="true">(function(){
+"use strict";
+var SK="__arena_rec",RRWEB_CDN="https://cdn.jsdelivr.net/npm/rrweb@2.0.0-alpha.4/dist/rrweb.min.js";
+var MAX_RECORDING_MS=600000,MAX_RRWEB_EVENTS=30000,MAX_INTERACTIONS=5000,MAX_CURSOR_POINTS=10000,recStopped=false;
+var stored=null;try{var raw=sessionStorage.getItem(SK);if(raw)stored=JSON.parse(raw);}catch(ex){}
+var meta=stored?stored.m||null:null,rrwebEvents=stored?stored.r||[]:[],rrwebStarted=false,startTime=stored?stored.st||Date.now():Date.now();
+var interactions=stored?stored.i||[]:[],cursorPath=stored?stored.c||[]:[],lastCursorSample=0,lastScrollSample=0;
+var pageHeight=document.documentElement.scrollHeight;
+var viewport={width:window.innerWidth,height:window.innerHeight};
+function isCapped(){if(recStopped)return true;if(Date.now()-startTime>=MAX_RECORDING_MS){recStopped=true;return true;}return false;}
+function persist(){try{var d=JSON.stringify({r:rrwebEvents,i:interactions,c:cursorPath,m:meta,st:startTime});sessionStorage.setItem(SK,d);}catch(ex){rrwebEvents=rrwebEvents.slice(Math.floor(rrwebEvents.length/2));try{sessionStorage.setItem(SK,JSON.stringify({r:rrwebEvents,i:interactions,c:cursorPath,m:meta,st:startTime}));}catch(ex2){}}}
+setInterval(persist,5000);
+window.addEventListener("resize",function(){viewport={width:window.innerWidth,height:window.innerHeight};pageHeight=document.documentElement.scrollHeight;});
+document.addEventListener("click",function(e){if(isCapped()||interactions.length>=MAX_INTERACTIONS)return;var el=e.target;var tag=el.tagName?el.tagName.toLowerCase():"";var text=(el.textContent||"").trim().substring(0,80);var classes=el.className&&typeof el.className==="string"?el.className.substring(0,120):"";interactions.push({type:"click",t:Date.now()-startTime,x:Math.round(e.clientX),y:Math.round(e.clientY),element:{tag:tag,text:text,classes:classes}});},true);
+window.addEventListener("scroll",function(){if(isCapped()||interactions.length>=MAX_INTERACTIONS)return;var now=Date.now();if(now-lastScrollSample<200)return;lastScrollSample=now;var scrollY=Math.round(window.scrollY||window.pageYOffset||0);var depthPct=pageHeight>viewport.height?Math.min(100,Math.round(((scrollY+viewport.height)/pageHeight)*100)):100;interactions.push({type:"scroll",t:now-startTime,y:scrollY,depth_pct:depthPct});},{passive:true});
+document.addEventListener("mousemove",function(e){if(isCapped()||cursorPath.length>=MAX_CURSOR_POINTS)return;var now=Date.now();if(now-lastCursorSample<250)return;lastCursorSample=now;cursorPath.push([Math.round(e.clientX),Math.round(e.clientY),now-startTime]);},{passive:true});
+document.addEventListener("keydown",function(e){if(isCapped()||interactions.length>=MAX_INTERACTIONS)return;if(e.target&&(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA"))return;interactions.push({type:"keydown",t:Date.now()-startTime,key:e.key});},true);
+function buildAnalytics(){if(!meta)return null;var ph=document.documentElement.scrollHeight;var maxScroll=0,clickElements={},firstClick=null,firstScroll=null,totalDistance=0;for(var i=0;i<interactions.length;i++){var ev=interactions[i];if(ev.type==="scroll"){if(ev.depth_pct>maxScroll)maxScroll=ev.depth_pct;if(!firstScroll)firstScroll=ev.t;}if(ev.type==="click"){if(!firstClick)firstClick=ev.t;var key=ev.element.tag+":"+ev.element.text.substring(0,30);clickElements[key]=true;}}for(var j=1;j<cursorPath.length;j++){var dx=cursorPath[j][0]-cursorPath[j-1][0];var dy=cursorPath[j][1]-cursorPath[j-1][1];totalDistance+=Math.sqrt(dx*dx+dy*dy);}var duration=Date.now()-startTime;var clickHeatmap=[];for(var k=0;k<interactions.length;k++){if(interactions[k].type==="click")clickHeatmap.push([interactions[k].x,interactions[k].y]);}return{generation_id:meta.generationId,tournament_id:meta.tournamentId,started_at:new Date(startTime).toISOString(),ended_at:new Date().toISOString(),duration_ms:duration,viewport:viewport,page_height:ph,interactions:interactions,cursor_path:cursorPath,click_heatmap:clickHeatmap,summary:{total_clicks:clickHeatmap.length,total_scrolls:interactions.filter(function(e){return e.type==="scroll";}).length,max_scroll_depth_pct:maxScroll,unique_elements_clicked:Object.keys(clickElements).length,time_to_first_click_ms:firstClick,time_to_first_scroll_ms:firstScroll,cursor_distance_px:Math.round(totalDistance),active_time_ms:duration}};}
+function loadRrweb(){if(rrwebStarted)return;rrwebStarted=true;var s=document.createElement("script");s.src=RRWEB_CDN;s.onload=function(){var rec=(window.rrweb&&window.rrweb.record)||window.rrwebRecord;if(!rec)return;rec({emit:function(event){if(rrwebEvents.length>=MAX_RRWEB_EVENTS||isCapped())return;rrwebEvents.push(event);}});};s.onerror=function(){};document.head.appendChild(s);}
+window.addEventListener("message",function(e){if(!e.data||typeof e.data.type!=="string")return;if(e.data.type==="arena:init"){if(!meta)startTime=Date.now();meta={generationId:e.data.generationId||e.data.modelId,tournamentId:e.data.tournamentId};persist();loadRrweb();if(e.source)e.source.postMessage({type:"arena:init-ack",generationId:meta.generationId},"*");}if(e.data.type==="arena:flush"){var resp={type:"arena:recording-data",generationId:meta?meta.generationId:null,rrwebEvents:rrwebEvents,analytics:buildAnalytics()};try{sessionStorage.removeItem(SK);}catch(ex){}if(e.source)e.source.postMessage(resp,"*");}});
+loadRrweb();
+})();</script>
+  <script data-arena-views="true">(function(){var isTop=false;try{isTop=window.self===window.top;}catch(e){}if(!isTop)return;window.__ARENA_META={generationId:"claude-opus-4-5-20251101",tournamentId:"8d182839-bcd6-4414-b860-f65d4172164c"};var payload={tournamentId:"8d182839-bcd6-4414-b860-f65d4172164c",modelId:"claude-opus-4-5-20251101"};try{var r=document.referrer;if(r){var u=new URL(r);payload.referrerDomain=u.hostname;}}catch(e){}try{var vid=null;try{vid=localStorage.getItem('arena_vid');}catch(e){}if(!vid){vid=typeof crypto!=="undefined"&&crypto.randomUUID?crypto.randomUUID():(Date.now().toString(36)+Math.random().toString(36).slice(2)).slice(0,32);try{localStorage.setItem('arena_vid',vid);}catch(e){}}if(vid)payload.viewerId=vid;}catch(e){}try{fetch("https://www.designarena.ai/api/agon/page-views",{"method":"POST","headers":{"Content-Type":"application/json"},"body":JSON.stringify(payload),"keepalive":true});}catch(e){}})();</script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo" onclick="showPage('home')">
+                <div class="logo-icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <div class="logo-text">Medi<span>Care</span></div>
+            </a>
+
+            <nav id="mainNav">
+                <a href="#" class="active" data-page="home" data-i18n="nav_home">Home</a>
+                <a href="#" data-page="programs" data-i18n="nav_doctors">Our Doctors</a>
+                <a href="#" data-page="admin" data-i18n="nav_admin">Administration</a>
+                <a href="#" data-page="patient" data-i18n="nav_patient">Patient Portal</a>
+            </nav>
+
+            <div class="header-actions">
+                <div class="lang-selector">
+                    <button class="lang-btn" onclick="toggleLangDropdown()">
+                        <i class="fas fa-globe"></i>
+                        <span id="currentLang">EN</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <button onclick="setLanguage('en')">🇺🇸 English</button>
+                        <button onclick="setLanguage('fr')">🇫🇷 Français</button>
+                        <button onclick="setLanguage('ar')">🇸🇦 العربية</button>
+                    </div>
+                </div>
+                <button class="btn btn-outline" onclick="showModal('loginModal')" data-i18n="btn_signin">Sign in</button>
+                <button class="btn btn-primary" onclick="showModal('registerModal')" data-i18n="btn_signup">Sign up</button>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Home Page -->
+        <div id="homePage" class="page active">
+            <section class="hero">
+                <div class="hero-container">
+                    <div class="hero-content">
+                        <h1 data-i18n="hero_title">Your Health, Our <span>Priority</span></h1>
+                        <p data-i18n="hero_desc">Welcome to MediCare Clinic, where we provide comprehensive medical services with a team of experienced doctors. Book appointments, manage your health records, and receive quality care.</p>
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary" onclick="showModal('appointmentModal')" data-i18n="btn_book">Book Appointment</button>
+                            <button class="btn btn-outline" onclick="showPage('programs')" data-i18n="btn_doctors">View Doctors</button>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <div class="stat-number">50+</div>
+                                <div class="stat-label" data-i18n="stat_doctors">Doctors</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">10K+</div>
+                                <div class="stat-label" data-i18n="stat_patients">Patients</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">15+</div>
+                                <div class="stat-label" data-i18n="stat_years">Years Experience</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <img src="public/images/hero-medical.jpg" alt="Medical Care">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Services Section -->
+            <section class="section" style="background: var(--dark);">
+                <div class="section-header">
+                    <h2 data-i18n="services_title">Our Services</h2>
+                    <p data-i18n="services_desc">Comprehensive healthcare services for you and your family</p>
+                </div>
+                <div class="doctors-grid">
+                    <div class="doctor-card" style="text-align: center; padding: 2rem;">
+                        <i class="fas fa-user-md" style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
+                        <h3 data-i18n="service_consultation">Medical Consultation</h3>
+                        <p data-i18n="service_consultation_desc">Expert medical advice from our qualified doctors</p>
+                    </div>
+                    <div class="doctor-card" style="text-align: center; padding: 2rem;">
+                        <i class="fas fa-calendar-check" style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
+                        <h3 data-i18n="service_appointment">Easy Appointments</h3>
+                        <p data-i18n="service_appointment_desc">Book and manage your appointments online</p>
+                    </div>
+                    <div class="doctor-card" style="text-align: center; padding: 2rem;">
+                        <i class="fas fa-file-medical" style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
+                        <h3 data-i18n="service_records">Medical Records</h3>
+                        <p data-i18n="service_records_desc">Secure access to your health history</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Doctors Page (Programs) -->
+        <div id="programsPage" class="page">
+            <section class="section">
+                <div class="section-header">
+                    <h2 data-i18n="doctors_title">Our Medical Team</h2>
+                    <p data-i18n="doctors_desc">Meet our experienced and dedicated healthcare professionals</p>
+                </div>
+                <div class="doctors-grid" id="publicDoctorsList">
+                    <!-- Doctors will be loaded here -->
+                </div>
+            </section>
+        </div>
+
+        <!-- Admin Page -->
+        <div id="adminPage" class="page">
+            <div class="page-container">
+                <div id="adminLoginSection">
+                    <div class="login-container">
+                        <h2 data-i18n="admin_login">Administrator Login</h2>
+                        <form onsubmit="adminLogin(event)">
+                            <div class="form-group">
+                                <label data-i18n="label_username">Username</label>
+                                <input type="text" id="adminUsername" required>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="label_password">Password</label>
+                                <div class="password-wrapper">
+                                    <input type="password" id="adminPassword" required>
+                                    <button type="button" class="toggle-password" onclick="togglePassword('adminPassword', this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="btn_login">Login</button>
+                        </form>
+                        <p style="text-align: center; margin-top: 1rem; color: var(--gray); font-size: 0.9rem;">
+                            Demo: admin / admin123
+                        </p>
+                    </div>
+                </div>
+
+                <div id="adminDashboard" style="display: none;">
+                    <div class="admin-panel">
+                        <div class="admin-header">
+                            <h2 data-i18n="admin_dashboard">Administration Dashboard</h2>
+                            <button class="btn btn-outline" onclick="adminLogout()" data-i18n="btn_logout">Logout</button>
+                        </div>
+                        <div class="admin-tabs">
+                            <button class="admin-tab active" onclick="showAdminTab('doctors')" data-i18n="tab_doctors">Doctors</button>
+                            <button class="admin-tab" onclick="showAdminTab('patients')" data-i18n="tab_patients">Patients</button>
+                            <button class="admin-tab" onclick="showAdminTab('appointments')" data-i18n="tab_appointments">Appointments</button>
+                            <button class="admin-tab" onclick="showAdminTab('consultations')" data-i18n="tab_consultations">Consultations</button>
+                        </div>
+                    </div>
+
+                    <!-- Doctors Tab -->
+                    <div id="doctorsTab" class="admin-panel">
+                        <h3 data-i18n="manage_doctors">Manage Doctors</h3>
+                        <div class="search-bar">
+                            <input type="text" class="search-input" placeholder="Search doctors..." id="searchDoctors" oninput="searchTable('doctors')" data-i18n-placeholder="search_doctors">
+                            <button class="btn btn-primary" onclick="showModal('addDoctorModal')" data-i18n="btn_add_doctor">Add Doctor</button>
+                            <button class="btn btn-outline" onclick="printTable('doctorsTable')" data-i18n="btn_print">Print List</button>
+                        </div>
+                        <div class="table-container">
+                            <table id="doctorsTable">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="th_id">ID</th>
+                                        <th data-i18n="th_name">Name</th>
+                                        <th data-i18n="th_specialty">Specialty</th>
+                                        <th data-i18n="th_phone">Phone</th>
+                                        <th data-i18n="th_email">Email</th>
+                                        <th data-i18n="th_actions">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="doctorsTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Patients Tab -->
+                    <div id="patientsTab" class="admin-panel" style="display: none;">
+                        <h3 data-i18n="manage_patients">Manage Patients</h3>
+                        <div class="search-bar">
+                            <input type="text" class="search-input" placeholder="Search patients..." id="searchPatients" oninput="searchTable('patients')" data-i18n-placeholder="search_patients">
+                            <button class="btn btn-primary" onclick="showModal('addPatientModal')" data-i18n="btn_add_patient">Add Patient</button>
+                            <button class="btn btn-outline" onclick="printTable('patientsTable')" data-i18n="btn_print">Print List</button>
+                        </div>
+                        <div class="table-container">
+                            <table id="patientsTable">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="th_id">ID</th>
+                                        <th data-i18n="th_name">Name</th>
+                                        <th data-i18n="th_dob">Date of Birth</th>
+                                        <th data-i18n="th_phone">Phone</th>
+                                        <th data-i18n="th_email">Email</th>
+                                        <th data-i18n="th_actions">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="patientsTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Appointments Tab -->
+                    <div id="appointmentsTab" class="admin-panel" style="display: none;">
+                        <h3 data-i18n="manage_appointments">Manage Appointments</h3>
+                        <div class="search-bar">
+                            <input type="text" class="search-input" placeholder="Search appointments..." id="searchAppointments" oninput="searchTable('appointments')" data-i18n-placeholder="search_appointments">
+                            <button class="btn btn-primary" onclick="showModal('addAppointmentModal')" data-i18n="btn_add_appointment">Add Appointment</button>
+                            <button class="btn btn-outline" onclick="printTable('appointmentsTable')" data-i18n="btn_print">Print List</button>
+                        </div>
+                        <div class="table-container">
+                            <table id="appointmentsTable">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="th_id">ID</th>
+                                        <th data-i18n="th_patient">Patient</th>
+                                        <th data-i18n="th_doctor">Doctor</th>
+                                        <th data-i18n="th_date">Date</th>
+                                        <th data-i18n="th_time">Time</th>
+                                        <th data-i18n="th_status">Status</th>
+                                        <th data-i18n="th_actions">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="appointmentsTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Consultations Tab -->
+                    <div id="consultationsTab" class="admin-panel" style="display: none;">
+                        <h3 data-i18n="manage_consultations">Manage Consultations</h3>
+                        <div class="search-bar">
+                            <input type="text" class="search-input" placeholder="Search consultations..." id="searchConsultations" oninput="searchTable('consultations')" data-i18n-placeholder="search_consultations">
+                            <button class="btn btn-primary" onclick="showModal('addConsultationModal')" data-i18n="btn_add_consultation">Add Consultation</button>
+                            <button class="btn btn-outline" onclick="printTable('consultationsTable')" data-i18n="btn_print">Print List</button>
+                        </div>
+                        <div class="table-container">
+                            <table id="consultationsTable">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="th_id">ID</th>
+                                        <th data-i18n="th_patient">Patient</th>
+                                        <th data-i18n="th_doctor">Doctor</th>
+                                        <th data-i18n="th_date">Date</th>
+                                        <th data-i18n="th_diagnosis">Diagnosis</th>
+                                        <th data-i18n="th_actions">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="consultationsTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Patient Portal Page -->
+        <div id="patientPage" class="page">
+            <div class="page-container">
+                <div id="patientLoginSection">
+                    <div class="login-container">
+                        <h2 data-i18n="patient_login">Patient Portal</h2>
+                        <form onsubmit="patientLogin(event)">
+                            <div class="form-group">
+                                <label data-i18n="label_email">Email</label>
+                                <input type="email" id="patientEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="label_password">Password</label>
+                                <div class="password-wrapper">
+                                    <input type="password" id="patientPassword" required>
+                                    <button type="button" class="toggle-password" onclick="togglePassword('patientPassword', this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="btn_login">Login</button>
+                        </form>
+                        <p style="text-align: center; margin-top: 1rem;">
+                            <a href="#" onclick="showModal('registerModal')" style="color: var(--accent);" data-i18n="link_register">Don't have an account? Register here</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div id="patientDashboard" style="display: none;">
+                    <div class="admin-header" style="margin-bottom: 2rem;">
+                        <h2 data-i18n="welcome_patient">Welcome, <span id="patientName"></span></h2>
+                        <button class="btn btn-outline" onclick="patientLogout()" data-i18n="btn_logout">Logout</button>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                        <div class="portal-card">
+                            <h3><i class="fas fa-calendar-alt"></i> <span data-i18n="my_appointments">My Appointments</span></h3>
+                            <div id="patientAppointments">
+                                <!-- Appointments will be loaded here -->
+                            </div>
+                            <button class="btn btn-primary" style="margin-top: 1rem;" onclick="showModal('appointmentModal')" data-i18n="btn_book_new">Book New Appointment</button>
+                        </div>
+
+                        <div class="portal-card">
+                            <h3><i class="fas fa-notes-medical"></i> <span data-i18n="my_consultations">My Consultations</span></h3>
+                            <div id="patientConsultations">
+                                <!-- Consultations will be loaded here -->
+                            </div>
+                        </div>
+
+                        <div class="portal-card">
+                            <h3><i class="fas fa-user-cog"></i> <span data-i18n="my_profile">My Profile</span></h3>
+                            <form onsubmit="updatePatientProfile(event)">
+                                <div class="form-group">
+                                    <label data-i18n="label_name">Full Name</label>
+                                    <input type="text" id="profileName">
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="label_phone">Phone</label>
+                                    <input type="tel" id="profilePhone">
+                                </div>
+                                <button type="submit" class="btn btn-primary" data-i18n="btn_update">Update Profile</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4 data-i18n="footer_about">About MediCare</h4>
+                <p style="color: var(--gray);" data-i18n="footer_about_text">Providing quality healthcare services since 2009. Your trusted medical partner.</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_quick_links">Quick Links</h4>
+                <a href="#" onclick="showPage('home')" data-i18n="nav_home">Home</a>
+                <a href="#" onclick="showPage('programs')" data-i18n="nav_doctors">Our Doctors</a>
+                <a href="#" onclick="showPage('patient')" data-i18n="nav_patient">Patient Portal</a>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_contact">Contact Us</h4>
+                <p style="color: var(--gray);"><i class="fas fa-phone"></i> +1 234 567 890</p>
+                <p style="color: var(--gray);"><i class="fas fa-envelope"></i> info@medicare.com</p>
+                <p style="color: var(--gray);"><i class="fas fa-map-marker-alt"></i> 123 Medical St, City</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_hours">Working Hours</h4>
+                <p style="color: var(--gray);" data-i18n="hours_weekdays">Mon - Fri: 8:00 AM - 8:00 PM</p>
+                <p style="color: var(--gray);" data-i18n="hours_saturday">Saturday: 9:00 AM - 5:00 PM</p>
+                <p style="color: var(--gray);" data-i18n="hours_sunday">Sunday: Closed</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 MediCare Clinic. <span data-i18n="footer_rights">All rights reserved.</span></p>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+            <div class="modal-header">
+                <h3 data-i18n="modal_signin">Sign In</h3>
+            </div>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label data-i18n="label_email">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="loginPassword" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('loginPassword', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="btn_signin">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
+            <div class="modal-header">
+                <h3 data-i18n="modal_signup">Create Account</h3>
+            </div>
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label data-i18n="label_fullname">Full Name</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_email">Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_phone">Phone</label>
+                    <input type="tel" id="registerPhone" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_dob">Date of Birth</label>
+                    <input type="date" id="registerDob" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="registerPassword" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('registerPassword', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="btn_signup">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Appointment Modal -->
+    <div class="modal" id="appointmentModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('appointmentModal')">&times;</button>
+            <div class="modal-header">
+                <h3 data-i18n="modal_book_appointment">Book Appointment</h3>
+            </div>
+            <form onsubmit="bookAppointment(event)">
+                <div class="form-group">
+                    <label data-i18n="label_doctor">Select Doctor</label>
+                    <select id="appointmentDoctor" required>
+                        <option value="">-- Select Doctor --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_date">Date</label>
+                    <input type="date" id="appointmentDate" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_time">Time</label>
+                    <input type="time" id="appointmentTime" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_reason">Reason for Visit</label>
+                    <textarea id="appointmentReason" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="btn_book">Book Appointment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Doctor Modal -->
+    <div class="modal" id="addDoctorModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('addDoctorModal')">&times;</button>
+            <div class="modal-header">
+                <h3 data-i18n="modal_add_doctor">Add Doctor</h3>
+            </div>
+            <form onsubmit="addDoctor(event)">
+                <div class="form-group">
+                    <label data-i18n="label_name">Full Name</label>
+                    <input type="text" id="doctorName" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_specialty">Specialty</label>
+                    <select id="doctorSpecialty" required>
+                        <option value="General Medicine">General Medicine</option>
+                        <option value="Cardiology">Cardiology</option>
+                        <option value="Dermatology">Dermatology</option>
+                        <option value="Pediatrics">Pediatrics</option>
+                        <option value="Orthopedics">Orthopedics</option>
+                        <option value="Neurology">Neurology</option>
+                        <option value="Ophthalmology">Ophthalmology</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_phone">Phone</label>
+                    <input type="tel" id="doctorPhone" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_email">Email</label>
+                    <input type="email" id="doctorEmail" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="btn_add">Add Doctor</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Patient Modal -->
+    <div class="modal" id="addPatientModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('addPatientModal')">&times;</button>
+            <div class="modal-header">
+                <h3 data-i18n="modal_add_patient">Add Patient</h3>
+            </div>
+            <form onsubmit="addPatient(event)">
+                <div class="form-group">
+                    <label data-i18n="label_name">Full Name</label>
+                    <input type="text" id="patientNameAdd" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_dob">Date of Birth</label>
+                    <input type="date" id="patientDob" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_phone">Phone</label>
+                    <input type="tel" id="patientPhone" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_email">Email</label>
+                    <input type="email" id="patientEmailAdd" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="patientPasswordAdd" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('patientPasswordAdd', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="btn_add">Add Patient</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Appointment Modal (Admin) -->
+    <div class="modal" id="addAppointmentModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('addAppointmentModal')">&times;</button>
+            <div class="modal-header">
+                <h3 data-i18n="modal_add_appointment">Add Appointment</h3>
+            </div>
+            <form onsubmit="addAppointmentAdmin(event)">
+                <div class="form-group">
+                    <label data-i18n="label_patient">Patient</label>
+                    <select id="appointmentPatientAdmin" required>
+                        <option value="">-- Select Patient --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_doctor">Doctor</label>
+                    <select id="appointmentDoctorAdmin" required>
+                        <option value="">-- Select Doctor --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_date">Date</label>
+                    <input type="date" id="appointmentDateAdmin" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_time">Time</label>
+                    <input type="time" id="appointmentTimeAdmin" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_status">Status</label>
+                    <select id="appointmentStatusAdmin">
+                        <option value="Pending">Pending</option>
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="btn_add">Add Appointment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Consultation Modal -->
+    <div class="modal" id="addConsultationModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('addConsultationModal')">&times;</button>
+            <div class="modal-header">
+                <h3 data-i18n="modal_add_consultation">Add Consultation</h3>
+            </div>
+            <form onsubmit="addConsultation(event)">
+                <div class="form-group">
+                    <label data-i18n="label_patient">Patient</label>
+                    <select id="consultationPatient" required>
+                        <option value="">-- Select Patient --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_doctor">Doctor</label>
+                    <select id="consultationDoctor" required>
+                        <option value="">-- Select Doctor --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_date">Date</label>
+                    <input type="date" id="consultationDate" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_diagnosis">Diagnosis</label>
+                    <textarea id="consultationDiagnosis" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_prescription">Prescription</label>
+                    <textarea id="consultationPrescription" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="btn_add">Add Consultation</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Doctor Modal -->
+    <div class="modal" id="editDoctorModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('editDoctorModal')">&times;</button>
+            <div class="modal-header">
+                <h3 data-i18n="modal_edit_doctor">Edit Doctor</h3>
+            </div>
+            <form onsubmit="updateDoctor(event)">
+                <input type="hidden" id="editDoctorId">
+                <div class="form-group">
+                    <label data-i18n="label_name">Full Name</label>
+                    <input type="text" id="editDoctorName" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_specialty">Specialty</label>
+                    <select id="editDoctorSpecialty" required>
+                        <option value="General Medicine">General Medicine</option>
+                        <option value="Cardiology">Cardiology</option>
+                        <option value="Dermatology">Dermatology</option>
+                        <option value="Pediatrics">Pediatrics</option>
+                        <option value="Orthopedics">Orthopedics</option>
+                        <option value="Neurology">Neurology</option>
+                        <option value="Ophthalmology">Ophthalmology</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_phone">Phone</label>
+                    <input type="tel" id="editDoctorPhone" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_email">Email</label>
+                    <input type="email" id="editDoctorEmail" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="btn_update">Update Doctor</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Patient Modal -->
+    <div class="modal" id="editPatientModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('editPatientModal')">&times;</button>
+            <div class="modal-header">
+                <h3 data-i18n="modal_edit_patient">Edit Patient</h3>
+            </div>
+            <form onsubmit="updatePatient(event)">
+                <input type="hidden" id="editPatientId">
+                <div class="form-group">
+                    <label data-i18n="label_name">Full Name</label>
+                    <input type="text" id="editPatientName" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_dob">Date of Birth</label>
+                    <input type="date" id="editPatientDob" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_phone">Phone</label>
+                    <input type="tel" id="editPatientPhone" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_email">Email</label>
+                    <input type="email" id="editPatientEmail" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" data-i18n="btn_update">Update Patient</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage"></span>
+    </div>
+
+    <script>
+        // ==================== PASSWORD TOGGLE FUNCTION ====================
+        function togglePassword(inputId, button) {
+            const input = document.getElementById(inputId);
+            const icon = button.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // ==================== DATA STORAGE ====================
+        let doctors = JSON.parse(localStorage.getItem('doctors')) || [
+            { id: 1, name: 'Dr. Ahmed Hassan', specialty: 'Cardiology', phone: '+1 234 567 001', email: 'ahmed@medicare.com', image: 'public/images/doctor1.jpg' },
+            { id: 2, name: 'Dr. Sarah Johnson', specialty: 'Pediatrics', phone: '+1 234 567 002', email: 'sarah@medicare.com', image: 'public/images/doctor2.jpg' },
+            { id: 3, name: 'Dr. Michael Brown', specialty: 'General Medicine', phone: '+1 234 567 003', email: 'michael@medicare.com', image: 'public/images/doctor1.jpg' }
+        ];
+
+        let patients = JSON.parse(localStorage.getItem('patients')) || [
+            { id: 1, name: 'John Smith', dob: '1990-05-15', phone: '+1 234 567 100', email: 'john@email.com', password: 'patient123' },
+            { id: 2, name: 'Emily Davis', dob: '1985-08-22', phone: '+1 234 567 101', email: 'emily@email.com', password: 'patient123' }
+        ];
+
+        let appointments = JSON.parse(localStorage.getItem('appointments')) || [
+            { id: 1, patientId: 1, doctorId: 1, date: '2024-12-20', time: '09:00', status: 'Confirmed', reason: 'Regular checkup' },
+            { id: 2, patientId: 2, doctorId: 2, date: '2024-12-21', time: '10:30', status: 'Pending', reason: 'Flu symptoms' }
+        ];
+
+        let consultations = JSON.parse(localStorage.getItem('consultations')) || [
+            { id: 1, patientId: 1, doctorId: 1, date: '2024-12-10', diagnosis: 'Healthy, no issues found', prescription: 'Vitamin D supplements' }
+        ];
+
+        let currentPatient = null;
+        let isAdminLoggedIn = false;
+
+        // ==================== TRANSLATIONS ====================
+        const translations = {
+            en: {
+                nav_home: 'Home',
+                nav_doctors: 'Our Doctors',
+                nav_admin: 'Administration',
+                nav_patient: 'Patient Portal',
+                btn_signin: 'Sign in',
+                btn_signup: 'Sign up',
+                btn_logout: 'Logout',
+                btn_login: 'Login',
+                btn_book: 'Book Appointment',
+                btn_doctors: 'View Doctors',
+                btn_book_new: 'Book New Appointment',
+                btn_add: 'Add',
+                btn_update: 'Update',
+                btn_print: 'Print List',
+                btn_add_doctor: 'Add Doctor',
+                btn_add_patient: 'Add Patient',
+                btn_add_appointment: 'Add Appointment',
+                btn_add_consultation: 'Add Consultation',
+                hero_title: 'Your Health, Our Priority',
+                hero_desc: 'Welcome to MediCare Clinic, where we provide comprehensive medical services with a team of experienced doctors. Book appointments, manage your health records, and receive quality care.',
+                stat_doctors: 'Doctors',
+                stat_patients: 'Patients',
+                stat_years: 'Years Experience',
+                services_title: 'Our Services',
+                services_desc: 'Comprehensive healthcare services for you and your family',
+                service_consultation: 'Medical Consultation',
+                service_consultation_desc: 'Expert medical advice from our qualified doctors',
+                service_appointment: 'Easy Appointments',
+                service_appointment_desc: 'Book and manage your appointments online',
+                service_records: 'Medical Records',
+                service_records_desc: 'Secure access to your health history',
+                doctors_title: 'Our Medical Team',
+                doctors_desc: 'Meet our experienced and dedicated healthcare professionals',
+                admin_login: 'Administrator Login',
+                admin_dashboard: 'Administration Dashboard',
+                patient_login: 'Patient Portal',
+                welcome_patient: 'Welcome,',
+                tab_doctors: 'Doctors',
+                tab_patients: 'Patients',
+                tab_appointments: 'Appointments',
+                tab_consultations: 'Consultations',
+                manage_doctors: 'Manage Doctors',
+                manage_patients: 'Manage Patients',
+                manage_appointments: 'Manage Appointments',
+                manage_consultations: 'Manage Consultations',
+                my_appointments: 'My Appointments',
+                my_consultations: 'My Consultations',
+                my_profile: 'My Profile',
+                th_id: 'ID',
+                th_name: 'Name',
+                th_specialty: 'Specialty',
+                th_phone: 'Phone',
+                th_email: 'Email',
+                th_actions: 'Actions',
+                th_dob: 'Date of Birth',
+                th_patient: 'Patient',
+                th_doctor: 'Doctor',
+                th_date: 'Date',
+                th_time: 'Time',
+                th_status: 'Status',
+                th_diagnosis: 'Diagnosis',
+                label_username: 'Username',
+                label_password: 'Password',
+                label_email: 'Email',
+                label_name: 'Full Name',
+                label_fullname: 'Full Name',
+                label_phone: 'Phone',
+                label_dob: 'Date of Birth',
+                label_specialty: 'Specialty',
+                label_doctor: 'Select Doctor',
+                label_patient: 'Patient',
+                label_date: 'Date',
+                label_time: 'Time',
+                label_status: 'Status',
+                label_reason: 'Reason for Visit',
+                label_diagnosis: 'Diagnosis',
+                label_prescription: 'Prescription',
+                modal_signin: 'Sign In',
+                modal_signup: 'Create Account',
+                modal_book_appointment: 'Book Appointment',
+                modal_add_doctor: 'Add Doctor',
+                modal_add_patient: 'Add Patient',
+                modal_add_appointment: 'Add Appointment',
+                modal_add_consultation: 'Add Consultation',
+                modal_edit_doctor: 'Edit Doctor',
+                modal_edit_patient: 'Edit Patient',
+                link_register: "Don't have an account? Register here",
+                search_doctors: 'Search doctors...',
+                search_patients: 'Search patients...',
+                search_appointments: 'Search appointments...',
+                search_consultations: 'Search consultations...',
+                footer_about: 'About MediCare',
+                footer_about_text: 'Providing quality healthcare services since 2009. Your trusted medical partner.',
+                footer_quick_links: 'Quick Links',
+                footer_contact: 'Contact Us',
+                footer_hours: 'Working Hours',
+                footer_rights: 'All rights reserved.',
+                hours_weekdays: 'Mon - Fri: 8:00 AM - 8:00 PM',
+                hours_saturday: 'Saturday: 9:00 AM - 5:00 PM',
+                hours_sunday: 'Sunday: Closed',
+                toast_doctor_added: 'Doctor added successfully!',
+                toast_doctor_updated: 'Doctor updated successfully!',
+                toast_doctor_deleted: 'Doctor deleted successfully!',
+                toast_patient_added: 'Patient added successfully!',
+                toast_patient_updated: 'Patient updated successfully!',
+                toast_patient_deleted: 'Patient deleted successfully!',
+                toast_appointment_added: 'Appointment booked successfully!',
+                toast_consultation_added: 'Consultation added successfully!',
+                toast_login_success: 'Login successful!',
+                toast_register_success: 'Registration successful!',
+                toast_invalid_credentials: 'Invalid credentials!'
+            },
+            fr: {
+                nav_home: 'Accueil',
+                nav_doctors: 'Nos Médecins',
+                nav_admin: 'Administration',
+                nav_patient: 'Espace Patient',
+                btn_signin: 'Connexion',
+                btn_signup: "S'inscrire",
+                btn_logout: 'Déconnexion',
+                btn_login: 'Connexion',
+                btn_book: 'Prendre RDV',
+                btn_doctors: 'Voir Médecins',
+                btn_book_new: 'Nouveau RDV',
+                btn_add: 'Ajouter',
+                btn_update: 'Modifier',
+                btn_print: 'Imprimer',
+                btn_add_doctor: 'Ajouter Médecin',
+                btn_add_patient: 'Ajouter Patient',
+                btn_add_appointment: 'Ajouter RDV',
+                btn_add_consultation: 'Ajouter Consultation',
+                hero_title: 'Votre Santé, Notre Priorité',
+                hero_desc: 'Bienvenue à la Clinique MediCare, où nous offrons des services médicaux complets avec une équipe de médecins expérimentés.',
+                stat_doctors: 'Médecins',
+                stat_patients: 'Patients',
+                stat_years: "Ans d'Expérience",
+                services_title: 'Nos Services',
+                services_desc: 'Services de santé complets pour vous et votre famille',
+                service_consultation: 'Consultation Médicale',
+                service_consultation_desc: 'Conseils médicaux experts de nos médecins qualifiés',
+                service_appointment: 'Rendez-vous Faciles',
+                service_appointment_desc: 'Réservez et gérez vos rendez-vous en ligne',
+                service_records: 'Dossiers Médicaux',
+                service_records_desc: 'Accès sécurisé à votre historique de santé',
+                doctors_title: 'Notre Équipe Médicale',
+                doctors_desc: 'Rencontrez nos professionnels de santé expérimentés et dévoués',
+                admin_login: 'Connexion Administrateur',
+                admin_dashboard: 'Tableau de Bord Administration',
+                patient_login: 'Espace Patient',
+                welcome_patient: 'Bienvenue,',
+                tab_doctors: 'Médecins',
+                tab_patients: 'Patients',
+                tab_appointments: 'Rendez-vous',
+                tab_consultations: 'Consultations',
+                manage_doctors: 'Gérer les Médecins',
+                manage_patients: 'Gérer les Patients',
+                manage_appointments: 'Gérer les Rendez-vous',
+                manage_consultations: 'Gérer les Consultations',
+                my_appointments: 'Mes Rendez-vous',
+                my_consultations: 'Mes Consultations',
+                my_profile: 'Mon Profil',
+                th_id: 'ID',
+                th_name: 'Nom',
+                th_specialty: 'Spécialité',
+                th_phone: 'Téléphone',
+                th_email: 'Email',
+                th_actions: 'Actions',
+                th_dob: 'Date de Naissance',
+                th_patient: 'Patient',
+                th_doctor: 'Médecin',
+                th_date: 'Date',
+                th_time: 'Heure',
+                th_status: 'Statut',
+                th_diagnosis: 'Diagnostic',
+                label_username: "Nom d'utilisateur",
+                label_password: 'Mot de passe',
+                label_email: 'Email',
+                label_name: 'Nom Complet',
+                label_fullname: 'Nom Complet',
+                label_phone: 'Téléphone',
+                label_dob: 'Date de Naissance',
+                label_specialty: 'Spécialité',
+                label_doctor: 'Sélectionner Médecin',
+                label_patient: 'Patient',
+                label_date: 'Date',
+                label_time: 'Heure',
+                label_status: 'Statut',
+                label_reason: 'Motif de Visite',
+                label_diagnosis: 'Diagnostic',
+                label_prescription: 'Ordonnance',
+                modal_signin: 'Connexion',
+                modal_signup: 'Créer un Compte',
+                modal_book_appointment: 'Prendre Rendez-vous',
+                modal_add_doctor: 'Ajouter Médecin',
+                modal_add_patient: 'Ajouter Patient',
+                modal_add_appointment: 'Ajouter Rendez-vous',
+                modal_add_consultation: 'Ajouter Consultation',
+                modal_edit_doctor: 'Modifier Médecin',
+                modal_edit_patient: 'Modifier Patient',
+                link_register: "Pas de compte? Inscrivez-vous ici",
+                search_doctors: 'Rechercher médecins...',
+                search_patients: 'Rechercher patients...',
+                search_appointments: 'Rechercher rendez-vous...',
+                search_consultations: 'Rechercher consultations...',
+                footer_about: 'À Propos de MediCare',
+                footer_about_text: 'Fournissant des services de santé de qualité depuis 2009. Votre partenaire médical de confiance.',
+                footer_quick_links: 'Liens Rapides',
+                footer_contact: 'Contactez-nous',
+                footer_hours: 'Heures de Travail',
+                footer_rights: 'Tous droits réservés.',
+                hours_weekdays: 'Lun - Ven: 8h00 - 20h00',
+                hours_saturday: 'Samedi: 9h00 - 17h00',
+                hours_sunday: 'Dimanche: Fermé',
+                toast_doctor_added: 'Médecin ajouté avec succès!',
+                toast_doctor_updated: 'Médecin modifié avec succès!',
+                toast_doctor_deleted: 'Médecin supprimé avec succès!',
+                toast_patient_added: 'Patient ajouté avec succès!',
+                toast_patient_updated: 'Patient modifié avec succès!',
+                toast_patient_deleted: 'Patient supprimé avec succès!',
+                toast_appointment_added: 'Rendez-vous réservé avec succès!',
+                toast_consultation_added: 'Consultation ajoutée avec succès!',
+                toast_login_success: 'Connexion réussie!',
+                toast_register_success: 'Inscription réussie!',
+                toast_invalid_credentials: 'Identifiants invalides!'
+            },
+            ar: {
+                nav_home: 'الرئيسية',
+                nav_doctors: 'أطباؤنا',
+                nav_admin: 'الإدارة',
+                nav_patient: 'بوابة المريض',
+                btn_signin: 'تسجيل الدخول',
+                btn_signup: 'إنشاء حساب',
+                btn_logout: 'تسجيل الخروج',
+                btn_login: 'دخول',
+                btn_book: 'حجز موعد',
+                btn_doctors: 'عرض الأطباء',
+                btn_book_new: 'حجز موعد جديد',
+                btn_add: 'إضافة',
+                btn_update: 'تحديث',
+                btn_print: 'طباعة القائمة',
+                btn_add_doctor: 'إضافة طبيب',
+                btn_add_patient: 'إضافة مريض',
+                btn_add_appointment: 'إضافة موعد',
+                btn_add_consultation: 'إضافة استشارة',
+                hero_title: 'صحتك، أولويتنا',
+                hero_desc: 'مرحباً بكم في عيادة ميديكير، حيث نقدم خدمات طبية شاملة مع فريق من الأطباء ذوي الخبرة. احجز المواعيد وأدر سجلاتك الصحية واحصل على رعاية عالية الجودة.',
+                stat_doctors: 'طبيب',
+                stat_patients: 'مريض',
+                stat_years: 'سنوات خبرة',
+                services_title: 'خدماتنا',
+                services_desc: 'خدمات رعاية صحية شاملة لك ولعائلتك',
+                service_consultation: 'الاستشارة الطبية',
+                service_consultation_desc: 'نصائح طبية من أطبائنا المؤهلين',
+                service_appointment: 'مواعيد سهلة',
+                service_appointment_desc: 'احجز وأدر مواعيدك عبر الإنترنت',
+                service_records: 'السجلات الطبية',
+                service_records_desc: 'وصول آمن إلى تاريخك الصحي',
+                doctors_title: 'فريقنا الطبي',
+                doctors_desc: 'تعرف على المتخصصين في الرعاية الصحية ذوي الخبرة',
+                admin_login: 'تسجيل دخول المسؤول',
+                admin_dashboard: 'لوحة تحكم الإدارة',
+                patient_login: 'بوابة المريض',
+                welcome_patient: 'مرحباً،',
+                tab_doctors: 'الأطباء',
+                tab_patients: 'المرضى',
+                tab_appointments: 'المواعيد',
+                tab_consultations: 'الاستشارات',
+                manage_doctors: 'إدارة الأطباء',
+                manage_patients: 'إدارة المرضى',
+                manage_appointments: 'إدارة المواعيد',
+                manage_consultations: 'إدارة الاستشارات',
+                my_appointments: 'مواعيدي',
+                my_consultations: 'استشاراتي',
+                my_profile: 'ملفي الشخصي',
+                th_id: 'الرقم',
+                th_name: 'الاسم',
+                th_specialty: 'التخصص',
+                th_phone: 'الهاتف',
+                th_email: 'البريد الإلكتروني',
+                th_actions: 'الإجراءات',
+                th_dob: 'تاريخ الميلاد',
+                th_patient: 'المريض',
+                th_doctor: 'الطبيب',
+                th_date: 'التاريخ',
+                th_time: 'الوقت',
+                th_status: 'الحالة',
+                th_diagnosis: 'التشخيص',
+                label_username: 'اسم المستخدم',
+                label_password: 'كلمة المرور',
+                label_email: 'البريد الإلكتروني',
+                label_name: 'الاسم الكامل',
+                label_fullname: 'الاسم الكامل',
+                label_phone: 'الهاتف',
+                label_dob: 'تاريخ الميلاد',
+                label_specialty: 'التخصص',
+                label_doctor: 'اختر الطبيب',
+                label_patient: 'المريض',
+                label_date: 'التاريخ',
+                label_time: 'الوقت',
+                label_status: 'الحالة',
+                label_reason: 'سبب الزيارة',
+                label_diagnosis: 'التشخيص',
+                label_prescription: 'الوصفة الطبية',
+                modal_signin: 'تسجيل الدخول',
+                modal_signup: 'إنشاء حساب',
+                modal_book_appointment: 'حجز موعد',
+                modal_add_doctor: 'إضافة طبيب',
+                modal_add_patient: 'إضافة مريض',
+                modal_add_appointment: 'إضافة موعد',
+                modal_add_consultation: 'إضافة استشارة',
+                modal_edit_doctor: 'تعديل الطبيب',
+                modal_edit_patient: 'تعديل المريض',
+                link_register: 'ليس لديك حساب؟ سجل هنا',
+                search_doctors: 'البحث عن أطباء...',
+                search_patients: 'البحث عن مرضى...',
+                search_appointments: 'البحث عن مواعيد...',
+                search_consultations: 'البحث عن استشارات...',
+                footer_about: 'عن ميديكير',
+                footer_about_text: 'نقدم خدمات رعاية صحية عالية الجودة منذ 2009. شريكك الطبي الموثوق.',
+                footer_quick_links: 'روابط سريعة',
+                footer_contact: 'اتصل بنا',
+                footer_hours: 'ساعات العمل',
+                footer_rights: 'جميع الحقوق محفوظة.',
+                hours_weekdays: 'الإثنين - الجمعة: 8:00 ص - 8:00 م',
+                hours_saturday: 'السبت: 9:00 ص - 5:00 م',
+                hours_sunday: 'الأحد: مغلق',
+                toast_doctor_added: 'تمت إضافة الطبيب بنجاح!',
+                toast_doctor_updated: 'تم تحديث الطبيب بنجاح!',
+                toast_doctor_deleted: 'تم حذف الطبيب بنجاح!',
+                toast_patient_added: 'تمت إضافة المريض بنجاح!',
+                toast_patient_updated: 'تم تحديث المريض بنجاح!',
+                toast_patient_deleted: 'تم حذف المريض بنجاح!',
+                toast_appointment_added: 'تم حجز الموعد بنجاح!',
+                toast_consultation_added: 'تمت إضافة الاستشارة بنجاح!',
+                toast_login_success: 'تم تسجيل الدخول بنجاح!',
+                toast_register_success: 'تم التسجيل بنجاح!',
+                toast_invalid_credentials: 'بيانات الدخول غير صحيحة!'
+            }
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'en';
+
+        // ==================== LANGUAGE FUNCTIONS ====================
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            document.getElementById('currentLang').textContent = lang.toUpperCase();
+            
+            if (lang === 'ar') {
+                document.body.setAttribute('dir', 'rtl');
+                document.documentElement.setAttribute('lang', 'ar');
+            } else {
+                document.body.setAttribute('dir', 'ltr');
+                document.documentElement.setAttribute('lang', lang);
+            }
+
+            // Update all translatable elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[lang][key]) {
+                    el.placeholder = translations[lang][key];
+                }
+            });
+
+            toggleLangDropdown();
+        }
+
+        function toggleLangDropdown() {
+            document.getElementById('langDropdown').classList.toggle('show');
+        }
+
+        // ==================== NAVIGATION ====================
+        function showPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+            
+            document.getElementById(page + 'Page').classList.add('active');
+            document.querySelector(`nav a[data-page="${page}"]`).classList.add('active');
+            
+            if (page === 'programs') {
+                renderPublicDoctors();
+            }
+            
+            // Close mobile menu
+            document.getElementById('mainNav').classList.remove('show');
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mainNav').classList.toggle('show');
+        }
+
+        // ==================== MODAL FUNCTIONS ====================
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            if (modalId === 'appointmentModal' || modalId === 'addAppointmentModal') {
+                populateDoctorSelect();
+            }
+            if (modalId === 'addAppointmentModal' || modalId === 'addConsultationModal') {
+                populatePatientSelect();
+                populateDoctorSelectAdmin();
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Close modal on outside click
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+
+        // ==================== TOAST NOTIFICATION ====================
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = message;
+            toast.classList.toggle('error', isError);
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ==================== ADMIN FUNCTIONS ====================
+        function adminLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+
+            if (username === 'admin' && password === 'admin123') {
+                isAdminLoggedIn = true;
+                document.getElementById('adminLoginSection').style.display = 'none';
+                document.getElementById('adminDashboard').style.display = 'block';
+                renderDoctorsTable();
+                showToast(translations[currentLang].toast_login_success);
+            } else {
+                showToast(translations[currentLang].toast_invalid_credentials, true);
+            }
+        }
+
+        function adminLogout() {
+            isAdminLoggedIn = false;
+            document.getElementById('adminLoginSection').style.display = 'block';
+            document.getElementById('adminDashboard').style.display = 'none';
+            document.getElementById('adminUsername').value = '';
+            document.getElementById('adminPassword').value = '';
+        }
+
+        function showAdminTab(tab) {
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.admin-tab[onclick="showAdminTab('${tab}')"]`).classList.add('active');
+            
+            document.getElementById('doctorsTab').style.display = 'none';
+            document.getElementById('patientsTab').style.display = 'none';
+            document.getElementById('appointmentsTab').style.display = 'none';
+            document.getElementById('consultationsTab').style.display = 'none';
+            
+            document.getElementById(tab + 'Tab').style.display = 'block';
+            
+            if (tab === 'doctors') renderDoctorsTable();
+            if (tab === 'patients') renderPatientsTable();
+            if (tab === 'appointments') renderAppointmentsTable();
+            if (tab === 'consultations') renderConsultationsTable();
+        }
+
+        // ==================== DOCTORS CRUD ====================
+        function renderDoctorsTable() {
+            const tbody = document.getElementById('doctorsTableBody');
+            tbody.innerHTML = doctors.map(d => `
+                <tr>
+                    <td>${d.id}</td>
+                    <td>${d.name}</td>
+                    <td>${d.specialty}</td>
+                    <td>${d.phone}</td>
+                    <td>${d.email}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn edit" onclick="editDoctor(${d.id})"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn delete" onclick="deleteDoctor(${d.id})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderPublicDoctors() {
+            const container = document.getElementById('publicDoctorsList');
+            container.innerHTML = doctors.map(d => `
+                <div class="doctor-card">
+                    <img src="${d.image || 'public/images/doctor1.jpg'}" alt="${d.name}">
+                    <div class="doctor-info">
+                        <h3>${d.name}</h3>
+                        <p class="specialty">${d.specialty}</p>
+                        <p><i class="fas fa-phone"></i> ${d.phone}</p>
+                        <p><i class="fas fa-envelope"></i> ${d.email}</p>
+                        <button class="btn btn-primary" onclick="showModal('appointmentModal')" style="margin-top: 1rem; width: 100%;">Book Appointment</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addDoctor(e) {
+            e.preventDefault();
+            const newDoctor = {
+                id: doctors.length > 0 ? Math.max(...doctors.map(d => d.id)) + 1 : 1,
+                name: document.getElementById('doctorName').value,
+                specialty: document.getElementById('doctorSpecialty').value,
+                phone: document.getElementById('doctorPhone').value,
+                email: document.getElementById('doctorEmail').value,
+                image: 'public/images/doctor1.jpg'
+            };
+            doctors.push(newDoctor);
+            saveData();
+            renderDoctorsTable();
+            closeModal('addDoctorModal');
+            showToast(translations[currentLang].toast_doctor_added);
+            e.target.reset();
+        }
+
+        function editDoctor(id) {
+            const doctor = doctors.find(d => d.id === id);
+            if (doctor) {
+                document.getElementById('editDoctorId').value = doctor.id;
+                document.getElementById('editDoctorName').value = doctor.name;
+                document.getElementById('editDoctorSpecialty').value = doctor.specialty;
+                document.getElementById('editDoctorPhone').value = doctor.phone;
+                document.getElementById('editDoctorEmail').value = doctor.email;
+                showModal('editDoctorModal');
+            }
+        }
+
+        function updateDoctor(e) {
+            e.preventDefault();
+            const id = parseInt(document.getElementById('editDoctorId').value);
+            const index = doctors.findIndex(d => d.id === id);
+            if (index !== -1) {
+                doctors[index] = {
+                    ...doctors[index],
+                    name: document.getElementById('editDoctorName').value,
+                    specialty: document.getElementById('editDoctorSpecialty').value,
+                    phone: document.getElementById('editDoctorPhone').value,
+                    email: document.getElementById('editDoctorEmail').value
+                };
+                saveData();
+                renderDoctorsTable();
+                closeModal('editDoctorModal');
+                showToast(translations[currentLang].toast_doctor_updated);
+            }
+        }
+
+        function deleteDoctor(id) {
+            if (confirm('Are you sure you want to delete this doctor?')) {
+                doctors = doctors.filter(d => d.id !== id);
+                saveData();
+                renderDoctorsTable();
+                showToast(translations[currentLang].toast_doctor_deleted);
+            }
+        }
+
+        // ==================== PATIENTS CRUD ====================
+        function renderPatientsTable() {
+            const tbody = document.getElementById('patientsTableBody');
+            tbody.innerHTML = patients.map(p => `
+                <tr>
+                    <td>${p.id}</td>
+                    <td>${p.name}</td>
+                    <td>${p.dob}</td>
+                    <td>${p.phone}</td>
+                    <td>${p.email}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn edit" onclick="editPatient(${p.id})"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn delete" onclick="deletePatient(${p.id})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function addPatient(e) {
+            e.preventDefault();
+            const newPatient = {
+                id: patients.length > 0 ? Math.max(...patients.map(p => p.id)) + 1 : 1,
+                name: document.getElementById('patientNameAdd').value,
+                dob: document.getElementById('patientDob').value,
+                phone: document.getElementById('patientPhone').value,
+                email: document.getElementById('patientEmailAdd').value,
+                password: document.getElementById('patientPasswordAdd').value
+            };
+            patients.push(newPatient);
+            saveData();
+            renderPatientsTable();
+            closeModal('addPatientModal');
+            showToast(translations[currentLang].toast_patient_added);
+            e.target.reset();
+        }
+
+        function editPatient(id) {
+            const patient = patients.find(p => p.id === id);
+            if (patient) {
+                document.getElementById('editPatientId').value = patient.id;
+                document.getElementById('editPatientName').value = patient.name;
+                document.getElementById('editPatientDob').value = patient.dob;
+                document.getElementById('editPatientPhone').value = patient.phone;
+                document.getElementById('editPatientEmail').value = patient.email;
+                showModal('editPatientModal');
+            }
+        }
+
+        function updatePatient(e) {
+            e.preventDefault();
+            const id = parseInt(document.getElementById('editPatientId').value);
+            const index = patients.findIndex(p => p.id === id);
+            if (index !== -1) {
+                patients[index] = {
+                    ...patients[index],
+                    name: document.getElementById('editPatientName').value,
+                    dob: document.getElementById('editPatientDob').value,
+                    phone: document.getElementById('editPatientPhone').value,
+                    email: document.getElementById('editPatientEmail').value
+                };
+                saveData();
+                renderPatientsTable();
+                closeModal('editPatientModal');
+                showToast(translations[currentLang].toast_patient_updated);
+            }
+        }
+
+        function deletePatient(id) {
+            if (confirm('Are you sure you want to delete this patient?')) {
+                patients = patients.filter(p => p.id !== id);
+                saveData();
+                renderPatientsTable();
+                showToast(translations[currentLang].toast_patient_deleted);
+            }
+        }
+
+        // ==================== APPOINTMENTS CRUD ====================
+        function renderAppointmentsTable() {
+            const tbody = document.getElementById('appointmentsTableBody');
+            tbody.innerHTML = appointments.map(a => {
+                const patient = patients.find(p => p.id === a.patientId);
+                const doctor = doctors.find(d => d.id === a.doctorId);
+                return `
+                    <tr>
+                        <td>${a.id}</td>
+                        <td>${patient ? patient.name : 'Unknown'}</td>
+                        <td>${doctor ? doctor.name : 'Unknown'}</td>
+                        <td>${a.date}</td>
+                        <td>${a.time}</td>
+                        <td><span class="status-badge ${a.status.toLowerCase()}">${a.status}</span></td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="action-btn delete" onclick="deleteAppointment(${a.id})"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function populateDoctorSelect() {
+            const select = document.getElementById('appointmentDoctor');
+            select.innerHTML = '<option value="">-- Select Doctor --</option>' +
+                doctors.map(d => `<option value="${d.id}">${d.name} - ${d.specialty}</option>`).join('');
+        }
+
+        function populateDoctorSelectAdmin() {
+            const select1 = document.getElementById('appointmentDoctorAdmin');
+            const select2 = document.getElementById('consultationDoctor');
+            const options = '<option value="">-- Select Doctor --</option>' +
+                doctors.map(d => `<option value="${d.id}">${d.name} - ${d.specialty}</option>`).join('');
+            if (select1) select1.innerHTML = options;
+            if (select2) select2.innerHTML = options;
+        }
+
+        function populatePatientSelect() {
+            const select1 = document.getElementById('appointmentPatientAdmin');
+            const select2 = document.getElementById('consultationPatient');
+            const options = '<option value="">-- Select Patient --</option>' +
+                patients.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+            if (select1) select1.innerHTML = options;
+            if (select2) select2.innerHTML = options;
+        }
+
+        function bookAppointment(e) {
+            e.preventDefault();
+            if (!currentPatient) {
+                showToast('Please login first to book an appointment', true);
+                closeModal('appointmentModal');
+                showPage('patient');
+                return;
+            }
+            const newAppointment = {
+                id: appointments.length > 0 ? Math.max(...appointments.map(a => a.id)) + 1 : 1,
+                patientId: currentPatient.id,
+                doctorId: parseInt(document.getElementById('appointmentDoctor').value),
+                date: document.getElementById('appointmentDate').value,
+                time: document.getElementById('appointmentTime').value,
+                status: 'Pending',
+                reason: document.getElementById('appointmentReason').value
+            };
+            appointments.push(newAppointment);
+            saveData();
+            closeModal('appointmentModal');
+            showToast(translations[currentLang].toast_appointment_added);
+            e.target.reset();
+            if (currentPatient) renderPatientDashboard();
+        }
+
+        function addAppointmentAdmin(e) {
+            e.preventDefault();
+            const newAppointment = {
+                id: appointments.length > 0 ? Math.max(...appointments.map(a => a.id)) + 1 : 1,
+                patientId: parseInt(document.getElementById('appointmentPatientAdmin').value),
+                doctorId: parseInt(document.getElementById('appointmentDoctorAdmin').value),
+                date: document.getElementById('appointmentDateAdmin').value,
+                time: document.getElementById('appointmentTimeAdmin').value,
+                status: document.getElementById('appointmentStatusAdmin').value,
+                reason: ''
+            };
+            appointments.push(newAppointment);
+            saveData();
+            renderAppointmentsTable();
+            closeModal('addAppointmentModal');
+            showToast(translations[currentLang].toast_appointment_added);
+            e.target.reset();
+        }
+
+        function deleteAppointment(id) {
+            if (confirm('Are you sure you want to delete this appointment?')) {
+                appointments = appointments.filter(a => a.id !== id);
+                saveData();
+                renderAppointmentsTable();
+            }
+        }
+
+        // ==================== CONSULTATIONS CRUD ====================
+        function renderConsultationsTable() {
+            const tbody = document.getElementById('consultationsTableBody');
+            tbody.innerHTML = consultations.map(c => {
+                const patient = patients.find(p => p.id === c.patientId);
+                const doctor = doctors.find(d => d.id === c.doctorId);
+                return `
+                    <tr>
+                        <td>${c.id}</td>
+                        <td>${patient ? patient.name : 'Unknown'}</td>
+                        <td>${doctor ? doctor.name : 'Unknown'}</td>
+                        <td>${c.date}</td>
+                        <td>${c.diagnosis}</td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="action-btn view" onclick="viewConsultation(${c.id})"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn delete" onclick="deleteConsultation(${c.id})"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function addConsultation(e) {
+            e.preventDefault();
+            const newConsultation = {
+                id: consultations.length > 0 ? Math.max(...consultations.map(c => c.id)) + 1 : 1,
+                patientId: parseInt(document.getElementById('consultationPatient').value),
+                doctorId: parseInt(document.getElementById('consultationDoctor').value),
+                date: document.getElementById('consultationDate').value,
+                diagnosis: document.getElementById('consultationDiagnosis').value,
+                prescription: document.getElementById('consultationPrescription').value
+            };
+            consultations.push(newConsultation);
+            saveData();
+            renderConsultationsTable();
+            closeModal('addConsultationModal');
+            showToast(translations[currentLang].toast_consultation_added);
+            e.target.reset();
+        }
+
+        function viewConsultation(id) {
+            const c = consultations.find(con => con.id === id);
+            if (c) {
+                const patient = patients.find(p => p.id === c.patientId);
+                const doctor = doctors.find(d => d.id === c.doctorId);
+                alert(`Consultation Details:\n\nPatient: ${patient ? patient.name : 'Unknown'}\nDoctor: ${doctor ? doctor.name : 'Unknown'}\nDate: ${c.date}\nDiagnosis: ${c.diagnosis}\nPrescription: ${c.prescription || 'None'}`);
+            }
+        }
+
+        function deleteConsultation(id) {
+            if (confirm('Are you sure you want to delete this consultation?')) {
+                consultations = consultations.filter(c => c.id !== id);
+                saveData();
+                renderConsultationsTable();
+            }
+        }
+
+        // ==================== PATIENT PORTAL ====================
+        function patientLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('patientEmail').value;
+            const password = document.getElementById('patientPassword').value;
+
+            const patient = patients.find(p => p.email === email && p.password === password);
+            if (patient) {
+                currentPatient = patient;
+                document.getElementById('patientLoginSection').style.display = 'none';
+                document.getElementById('patientDashboard').style.display = 'block';
+                renderPatientDashboard();
+                showToast(translations[currentLang].toast_login_success);
+            } else {
+                showToast(translations[currentLang].toast_invalid_credentials, true);
+            }
+        }
+
+        function patientLogout() {
+            currentPatient = null;
+            document.getElementById('patientLoginSection').style.display = 'block';
+            document.getElementById('patientDashboard').style.display = 'none';
+            document.getElementById('patientEmail').value = '';
+            document.getElementById('patientPassword').value = '';
+        }
+
+        function renderPatientDashboard() {
+            document.getElementById('patientName').textContent = currentPatient.name;
+            document.getElementById('profileName').value = currentPatient.name;
+            document.getElementById('profilePhone').value = currentPatient.phone;
+
+            // Render patient appointments
+            const patientAppts = appointments.filter(a => a.patientId === currentPatient.id);
+            document.getElementById('patientAppointments').innerHTML = patientAppts.length > 0 ?
+                patientAppts.map(a => {
+                    const doctor = doctors.find(d => d.id === a.doctorId);
+                    return `
+                        <div class="appointment-card">
+                            <div class="date"><i class="fas fa-calendar"></i> ${a.date} at ${a.time}</div>
+                            <div class="doctor"><i class="fas fa-user-md"></i> ${doctor ? doctor.name : 'Unknown'}</div>
+                            <span class="status-badge ${a.status.toLowerCase()}">${a.status}</span>
+                        </div>
+                    `;
+                }).join('') : '<p style="color: var(--gray);">No appointments found.</p>';
+
+            // Render patient consultations
+            const patientCons = consultations.filter(c => c.patientId === currentPatient.id);
+            document.getElementById('patientConsultations').innerHTML = patientCons.length > 0 ?
+                patientCons.map(c => {
+                    const doctor = doctors.find(d => d.id === c.doctorId);
+                    return `
+                        <div class="appointment-card">
+                            <div class="date"><i class="fas fa-calendar"></i> ${c.date}</div>
+                            <div class="doctor"><i class="fas fa-user-md"></i> ${doctor ? doctor.name : 'Unknown'}</div>
+                            <p style="margin-top: 0.5rem;"><strong>Diagnosis:</strong> ${c.diagnosis}</p>
+                            ${c.prescription ? `<p><strong>Prescription:</strong> ${c.prescription}</p>` : ''}
+                        </div>
+                    `;
+                }).join('') : '<p style="color: var(--gray);">No consultations found.</p>';
+        }
+
+        function updatePatientProfile(e) {
+            e.preventDefault();
+            const index = patients.findIndex(p => p.id === currentPatient.id);
+            if (index !== -1) {
+                patients[index].name = document.getElementById('profileName').value;
+                patients[index].phone = document.getElementById('profilePhone').value;
+                currentPatient = patients[index];
+                saveData();
+                renderPatientDashboard();
+                showToast(translations[currentLang].toast_patient_updated);
+            }
+        }
+
+        // ==================== AUTH HANDLERS ====================
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            const patient = patients.find(p => p.email === email && p.password === password);
+            if (patient) {
+                currentPatient = patient;
+                closeModal('loginModal');
+                showPage('patient');
+                document.getElementById('patientLoginSection').style.display = 'none';
+                document.getElementById('patientDashboard').style.display = 'block';
+                renderPatientDashboard();
+                showToast(translations[currentLang].toast_login_success);
+            } else {
+                showToast(translations[currentLang].toast_invalid_credentials, true);
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const newPatient = {
+                id: patients.length > 0 ? Math.max(...patients.map(p => p.id)) + 1 : 1,
+                name: document.getElementById('registerName').value,
+                email: document.getElementById('registerEmail').value,
+                phone: document.getElementById('registerPhone').value,
+                dob: document.getElementById('registerDob').value,
+                password: document.getElementById('registerPassword').value
+            };
+            patients.push(newPatient);
+            saveData();
+            closeModal('registerModal');
+            showToast(translations[currentLang].toast_register_success);
+            e.target.reset();
+        }
+
+        // ==================== SEARCH & PRINT ====================
+        function searchTable(type) {
+            const searchInput = document.getElementById(`search${type.charAt(0).toUpperCase() + type.slice(1)}`);
+            const searchTerm = searchInput.value.toLowerCase();
+            const table = document.getElementById(`${type}Table`);
+            const rows = table.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        function printTable(tableId) {
+            const table = document.getElementById(tableId);
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>MediCare - Print</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; }
+                        table { width: 100%; border-collapse: collapse; }
+                        th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+                        th { background: #f0f0f0; }
+                        h1 { color: #0ea5e9; }
+                    </style>
+                </head>
+                <body>
+                    <h1>MediCare Clinic</h1>
+                    ${table.outerHTML}
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // ==================== DATA PERSISTENCE ====================
+        function saveData() {
+            localStorage.setItem('doctors', JSON.stringify(doctors));
+            localStorage.setItem('patients', JSON.stringify(patients));
+            localStorage.setItem('appointments', JSON.stringify(appointments));
+            localStorage.setItem('consultations', JSON.stringify(consultations));
+        }
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set initial language
+            setLanguage(currentLang);
+
+            // Navigation click handlers
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = link.getAttribute('data-page');
+                    showPage(page);
+                });
+            });
+
+            // Close language dropdown on outside click
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.lang-selector')) {
+                    document.getElementById('langDropdown').classList.remove('show');
+                }
+            });
+
+            // Render public doctors
+            renderPublicDoctors();
+        });
+    </script>
+</body>
+</html>
